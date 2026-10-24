@@ -1,26 +1,21 @@
 #include <stdio.h>
-#include <string.h>
+
+void selectionSort(int a[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int min = i;
+        for (int j = i + 1; j < n; j++)
+            if (a[j] < a[min]) min = j;
+        int t = a[min]; a[min] = a[i]; a[i] = t;
+    }
+}
 
 int main() {
-    char txt[100], pat[50];
-    scanf("%s %s", txt, pat);
+    int n, a[50];
+    if (scanf("%d", &n) != 1) return 1;
+    for (int i = 0; i < n; i++) scanf("%d", &a[i]);
 
-    int n = strlen(txt), m = strlen(pat), d = 256, q = 101, p = 0, t = 0, h = 1, f = 0;
+    selectionSort(a, n);
 
-    for (int i = 0; i < m - 1; i++) h = (h * d) % q;
-    for (int i = 0; i < m; i++) {
-        p = (d * p + pat[i]) % q;
-        t = (d * t + txt[i]) % q;
-    }
-
-    for (int i = 0; i <= n - m; i++) {
-        if (p == t && !strncmp(txt + i, pat, m))
-            printf("Pattern found at shift %d\n", i), f = 1;
-
-        if (i < n - m)
-            t = (d * (t - txt[i] * h) + txt[i + m]) % q, t = (t < 0) ? t + q : t;
-    }
-
-    if (!f) printf("Pattern not found");
+    for (int i = 0; i < n; i++) printf("%d ", a[i]);
     return 0;
 }
